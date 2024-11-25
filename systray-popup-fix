@@ -4,8 +4,6 @@
 # MIT license (c) 2024 https://github.com/slowpeek
 # Homepage: https://github.com/slowpeek/kubuntu-2404-fixes
 
-set -eu
-
 CONF=~/.config/plasma-org.kde.plasma.desktop-appletsrc
 
 awk_get_systray_cont_id='
