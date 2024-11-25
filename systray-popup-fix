@@ -5,6 +5,7 @@
 # Homepage: https://github.com/slowpeek/kubuntu-2404-fixes
 
 CONF=~/.config/plasma-org.kde.plasma.desktop-appletsrc
+[[ -e $CONF ]] || exit 0
 
 awk_get_systray_cont_id='
 /^\[Containments\]\[[0-9]+\]$/ {
