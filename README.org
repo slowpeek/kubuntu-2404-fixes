@@ -14,6 +14,7 @@ The solution:
 - =systemctl --user edit plasma-workspace.service=
 - set the script as =ExecStartPre=
 - it would wipe the saved popup size from the config on plasma start
+- this fix is applied on relog, =plasmashell --replace= case is not covered
 
 Tech details:
 
