@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2016
+
+# MIT license (c) 2024 https://github.com/slowpeek
+# Homepage: https://github.com/slowpeek/kubuntu-2404-fixes
+
+set -eu
+
+CONF=~/.config/plasma-org.kde.plasma.desktop-appletsrc
+
+awk_get_systray_cont_id='
+/^\[Containments\]\[[0-9]+\]$/ {
+    split($0, a, /[^[:alnum:]]+/)
+    cont_id = a[3]
+
+    while (1) {
+        getline
+        if (!NF) next
+
+        if ($0 == "plugin=org.kde.plasma.private.systemtray") {
+            print(cont_id)
+            exit
+        }
+    }
+}
+'
+
+del_key() {
+    kwriteconfig5 --file "$CONF" --group Containments --group "$1" --key "$2" --delete ''
+}
+
+cont_id=$(awk "$awk_get_systray_cont_id" < "$CONF")
+
+if [[ $cont_id == +([0-9]) ]]; then
+    del_key "$cont_id" popupWidth
+    del_key "$cont_id" popupHeight
+fi

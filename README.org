@@ -1,0 +1,24 @@
+* systray-popup-fix
+
+The problem:
+
+- Click the volume icon in the systray. Notice the popup size
+- Increase the global scale one step, apply with =plasmashell --replace=
+- Click the volume icon, notice the popup has become larger
+- Set the global scale back, apply with =plasmashell --replace=
+- Click the volume icon, notice the popup is still big
+- Affected versions: 23.04, 23.10, 24.04. 24.10 has it fixed
+
+The solution:
+
+- =systemctl --user edit plasma-workspace.service=
+- set the script as =ExecStartPre=
+- it would wipe the saved popup size from the config on plasma start
+
+Tech details:
+
+- =plasma-framework= package
+  - =src/plasmaquick/dialog.cpp=
+    - =DialogPrivate::updateSizeFromAppletInterface()= loads the saved popup
+      size
+    - =Dialog::hideEvent()= saves the popup size
