@@ -12,7 +12,13 @@ The problem:
 The solution:
 
 - =systemctl --user edit plasma-workspace.service=
-- set the script as =ExecStartPre=
+- add such section:
+
+ #+begin_example
+   [Service]
+   ExecStartPre=-/path/to/the/script
+ #+end_example
+
 - it would wipe the saved popup size from the config on plasma start
 - this fix is applied on relog, =plasmashell --replace= case is not covered
 
