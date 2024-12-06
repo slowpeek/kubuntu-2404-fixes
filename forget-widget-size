@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2016
+
+# MIT license (c) 2024 https://github.com/slowpeek
+# Homepage: https://github.com/slowpeek/kubuntu-2404-fixes
+
+CONF=~/.config/plasma-org.kde.plasma.desktop-appletsrc
+[[ -e $CONF ]] || exit 0
+
+# Wipe all saved sizes
+sed -Ei '/^(popup|dialog)(width|height)=/Id' "$CONF"

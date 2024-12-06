@@ -1,4 +1,4 @@
-* systray-popup-fix
+* forget-widget-size
 
 The problem:
 
@@ -10,6 +10,12 @@ The problem:
 - Affected versions: 23.04, 23.10, 24.04
 - Fixed in: 24.10
 
+The same happens with the calendar popup, when you click of the digital clock
+widget. Likely, all popups are like that.
+
+Also, widgets' config dialogs are affected. For example, the digital clock's
+one.
+
 The solution:
 
 - =systemctl --user edit plasma-workspace.service=
@@ -20,13 +26,10 @@ The solution:
    ExecStartPre=-/path/to/the/script
  #+end_example
 
-- it would wipe the saved popup size from the config on plasma start
+- it would wipe all saved sizes from the config on plasma start. The relevant
+  config file is =~/.config/plasma-org.kde.plasma.desktop-appletsrc=
 - this fix is applied on relog, =plasmashell --replace= case is not covered
 
-Tech details:
-
-- =plasma-framework= package
-  - =src/plasmaquick/dialog.cpp=
-    - =DialogPrivate::updateSizeFromAppletInterface()= loads the saved popup
-      size
-    - =Dialog::hideEvent()= saves the popup size
+For tech details, look into the =plasma-framework= package's sources:
+- =src/plasmaquick/configview.cpp= (config dialogs)
+- =src/plasmaquick/dialog.cpp= (popups)
